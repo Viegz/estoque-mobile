@@ -7,28 +7,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: #1a1e29; color: #e1e6ed; min-height: 100vh; padding: 20px; }
-        header { width: 100%; max-width: 1000px; margin: 0 auto 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2d3446; padding-bottom: 15px; }
-        h1 { font-size: 22px; font-weight: 600; color: #fff; }
+        body { background-color: #1a1e29; color: #e1e6ed; min-height: 100vh; padding: 15px; }
+        header { width: 100%; max-width: 1000px; margin: 0 auto 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2d3446; padding-bottom: 15px; }
+        h1 { font-size: 20px; font-weight: 600; color: #fff; }
         .view-screen { display: none; max-width: 1000px; margin: 0 auto; }
         .view-screen.active { display: block; }
-        .grid-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .btn-card { height: 150px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s; padding: 15px; }
-        .btn-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        .btn-card i { font-size: 40px; margin-bottom: 12px; }
-        .btn-card span { font-size: 14px; font-weight: 700; text-transform: uppercase; }
+        .grid-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .btn-card { height: 130px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s; padding: 12px; }
+        .btn-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+        .btn-card i { font-size: 36px; margin-bottom: 10px; }
+        .btn-card span { font-size: 13px; font-weight: 700; text-transform: uppercase; }
         .bg-logs { background: linear-gradient(135deg, #e74c3c, #c0392b); }
         .bg-buscar { background: linear-gradient(135deg, #f39c12, #d35400); }
         .bg-mov { background: linear-gradient(135deg, #2ecc71, #27ae60); }
         .bg-estoque { background: linear-gradient(135deg, #3498db, #2980b9); }
-        .card-panel { background: #222736; border-radius: 12px; border: 1px solid #2d3446; padding: 25px; margin-top: 20px; }
+        .card-panel { background: #222736; border-radius: 12px; border: 1px solid #2d3446; padding: 18px; margin-top: 15px; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; }
         .form-control { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #343d52; background: #1a1e29; color: #fff; font-size: 14px; }
         .btn-action { padding: 12px 25px; background: #27ae60; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; font-size: 15px; margin-top: 10px; width: 100%; }
-        .nav-back { display: inline-block; margin-top: 20px; padding: 10px 18px; background: #343d52; color: white; border-radius: 6px; border: none; cursor: pointer; text-decoration: none; font-weight: 600; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #2d3446; font-size: 14px; }
+        .nav-back { display: inline-block; margin-top: 15px; padding: 10px 18px; background: #343d52; color: white; border-radius: 6px; border: none; cursor: pointer; text-decoration: none; font-weight: 600; }
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 500px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #2d3446; font-size: 13px; white-space: nowrap; }
         th { background: #1a1e29; color: #8892b0; }
         .badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; }
         .badge-entrada { background: #27ae60; color: white; }
@@ -42,7 +43,6 @@
     </header>
 
     <main>
-        <!-- TELA 1: MENU PRINCIPAL -->
         <section id="screen-menu" class="view-screen active">
             <div class="grid-menu">
                 <button class="btn-card bg-logs" onclick="showScreen('screen-falha')"><i class="fa-solid fa-triangle-exclamation"></i><span>Registrar Falha</span></button>
@@ -52,7 +52,6 @@
             </div>
         </section>
 
-        <!-- TELA 2: SUBMENU MOVIMENTAÇÕES -->
         <section id="screen-movimentacoes" class="view-screen">
             <div class="grid-menu">
                 <button class="btn-card bg-mov" onclick="showScreen('screen-entrada')"><i class="fa-solid fa-box-archive"></i><span>Entrada de Equipamentos</span></button>
@@ -61,13 +60,12 @@
             <button class="nav-back" onclick="showScreen('screen-menu')"><i class="fa-solid fa-arrow-left"></i> Voltar ao Menu</button>
         </section>
 
-        <!-- TELA 3: FORMULÁRIO ENTRADA -->
         <section id="screen-entrada" class="view-screen">
             <div class="card-panel">
                 <h2>Entrada de Equipamentos</h2>
                 <br>
                 <form onsubmit="salvar(event, 'ENTRADA')">
-                    <div class="form-group"><label>Patrimônio *:</label><input type="text" id="entrada-patrimonio" class="form-control" required></div>
+                    <div class="form-group"><label>Patrimônio *:</label><input type="text" id="entrada-patrimonio" class="form-control" required placeholder="Ex: SF242708"></div>
                     <div class="form-group"><label>MAC / Detalhes:</label><input type="text" id="entrada-mac" class="form-control" placeholder="Ex: 00:1B:44:11:3A:B7"></div>
                     <div class="form-group"><label>Nº Série / Responsável:</label><input type="text" id="entrada-serie" class="form-control" placeholder="Ex: SN-99882"></div>
                     <button type="submit" class="btn-action">GRAVAR ENTRADA</button>
@@ -76,43 +74,40 @@
             <button class="nav-back" onclick="showScreen('screen-movimentacoes')"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
         </section>
 
-        <!-- TELA 4: FORMULÁRIO SAÍDA -->
         <section id="screen-saida" class="view-screen">
             <div class="card-panel">
                 <h2>Saída de Equipamentos</h2>
                 <br>
                 <form onsubmit="salvar(event, 'SAIDA')">
-                    <div class="form-group"><label>Patrimônio *:</label><input type="text" id="saida-patrimonio" class="form-control" required></div>
-                    <div class="form-group"><label>Destino / Local:</label><input type="text" id="saida-destino" class="form-control" placeholder="Ex: 4º Andar - RH"></div>
-                    <div class="form-group"><label>Responsável / Usuário:</label><input type="text" id="saida-resp" class="form-control" placeholder="Nome do Destinatário"></div>
+                    <div class="form-group"><label>Patrimônio *:</label><input type="text" id="saida-patrimonio" class="form-control" required placeholder="Ex: SF242708"></div>
+                    <div class="form-group"><label>Destino / Local:</label><input type="text" id="saida-destino" class="form-control" placeholder="Ex: 4º Andar"></div>
+                    <div class="form-group"><label>Responsável / Usuário:</label><input type="text" id="saida-resp" class="form-control" placeholder="Nome do Responsável"></div>
                     <button type="submit" class="btn-action" style="background:#e74c3c;">REGISTRAR SAÍDA</button>
                 </form>
             </div>
             <button class="nav-back" onclick="showScreen('screen-movimentacoes')"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
         </section>
 
-        <!-- TELA 5: FORMULÁRIO FALHA -->
         <section id="screen-falha" class="view-screen">
             <div class="card-panel">
                 <h2 style="color: #e74c3c;">Registrar Falha / Defeito</h2>
                 <br>
                 <form onsubmit="salvar(event, 'FALHA')">
-                    <div class="form-group"><label>Patrimônio *:</label><input type="text" id="falha-patrimonio" class="form-control" required></div>
+                    <div class="form-group"><label>Patrimônio *:</label><input type="text" id="falha-patrimonio" class="form-control" required placeholder="Ex: SF242708"></div>
                     <div class="form-group"><label>Técnico Responsável:</label><input type="text" id="falha-tecnico" class="form-control" placeholder="Nome do Técnico"></div>
-                    <div class="form-group"><label>Local Atual:</label><input type="text" id="falha-local" class="form-control" placeholder="Ex: Laboratório TI"></div>
-                    <div class="form-group"><label>Descrição do Defeito *:</label><input type="text" id="falha-defeito" class="form-control" required placeholder="Ex: Equipamento não liga / Fonte queimada"></div>
+                    <div class="form-group"><label>Local Atual:</label><input type="text" id="falha-local" class="form-control" placeholder="Ex: 4º Andar"></div>
+                    <div class="form-group"><label>Descrição do Defeito *:</label><input type="text" id="falha-defeito" class="form-control" required placeholder="Ex: Fonte queimada"></div>
                     <button type="submit" class="btn-action" style="background:#f39c12;">REGISTRAR FALHA</button>
                 </form>
             </div>
             <button class="nav-back" onclick="showScreen('screen-menu')"><i class="fa-solid fa-arrow-left"></i> Voltar ao Menu</button>
         </section>
 
-        <!-- TELA 6: BUSCA E LOGS -->
         <section id="screen-buscar" class="view-screen">
             <div class="card-panel">
                 <h2>Consulta e Lançamentos</h2>
                 <br>
-                <div style="overflow-x: auto;">
+                <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
@@ -134,7 +129,7 @@
     </main>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbx8pnXW_KGq78b1hd4s7fSoltiNDj1n4OWLNHFqqg090pN5gWeJ6gD9HotV91K-6T1Ang/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbx8pnXW_KGq78b1hd4s7fSoltiNDj1n4OWLNHFqqgO9OpN5gWeJ6gD9HotV9lK-6TlAng/exec";
 
         let dadosHistorico = [];
 
@@ -163,24 +158,21 @@
                 motivo = document.getElementById('falha-defeito').value;
             }
 
-            const payload = {
-                acao: tipo,
-                patrimonio: patrimonio,
-                local: local,
-                usuario: usuario,
-                motivo: motivo
-            };
-
             const dataAtual = new Date().toLocaleString('pt-BR');
 
             try {
-                // Envio com suporte ao redirecionamento do Google Apps Script
-                await fetch(API_URL, {
+                // Envio compatível com requisição GET/POST no Apps Script sem erro de CORS
+                const params = new URLSearchParams({
+                    acao: tipo,
+                    patrimonio: patrimonio,
+                    local: local,
+                    usuario: usuario,
+                    motivo: motivo
+                });
+
+                await fetch(`${API_URL}?${params.toString()}`, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    redirect: 'follow',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
+                    mode: 'no-cors'
                 });
 
                 dadosHistorico.unshift({
@@ -191,7 +183,7 @@
                     data: dataAtual
                 });
 
-                alert('✅ Lançamento enviado e gravado com sucesso!');
+                alert('✅ Lançamento enviado!');
                 e.target.reset();
                 renderTabela();
                 showScreen('screen-buscar');
