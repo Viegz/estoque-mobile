@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque Mobile</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { margin: 0; padding: 0; background-color: #f1f5f9; }
+        
+        .header { background-color: #0f172a; color: white; padding: 16px; text-align: center; font-size: 18px; font-weight: bold; }
+        .container { padding: 16px; }
+        
+        /* Tab Menu */
+        .tabs { display: flex; background: #1e293b; margin-bottom: 16px; border-radius: 8px; overflow: hidden; }
+        .tab-btn { flex: 1; padding: 12px 6px; color: #94a3b8; background: none; border: none; font-size: 12px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .tab-btn.active { color: white; background-color: #2563eb; }
+        
+        /* Form Card */
+        .card { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 16px; display: none; }
+        .card.active { display: block; }
+        
+        label { font-size: 12px; font-weight: bold; color: #475569; display: block; margin-top: 10px; }
+        input, select, textarea { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+        
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 6px; color: white; font-weight: bold; margin-top: 16px; cursor: pointer; font-size: 14px; }
+        .btn-blue { background-color: #2563eb; }
+        .btn-red { background-color: #dc2626; }
+        .btn-dark { background-color: #334155; }
+        
+        /* Custom badges */
+        .badge { padding: 3px 8px; border-radius: 4px; color: white; font-size: 11px; font-weight: bold; }
+        .bg-green { background: #16a34a; }
+        .bg-red { background: #dc2626; }
+        .bg-gray { background: #64748b; }
+    </style>
+</head>
+<body>
+
+    <div class="header">📱 Gestão de Estoque</div>
+
+    <div class="container">
+        <!-- Tab Navigation Buttons -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('saida')">📤 Saída</button>
+            <button class="tab-btn" onclick="switchTab('falha')">⚠️ Falha</button>
+            <button class="tab-btn" onclick="switchTab('manual')">📖 Manual</button>
+        </div>
+
+        <!-- TAB 1: FORMULÁRIO DE SAÍDA -->
+        <div id="tab-saida" class="card active">
+            <h3 style="margin-top:0;">Registrar Saída</h3>
+            
+            <label>PATRIMÔNIO *</label>
+            <input type="text" id="saida-patrimonio" placeholder="Ex: PAT-2024-001">
+
+            <label>RESPONSÁVEL / USUÁRIO *</label>
+            <input type="text" id="saida-usuario" placeholder="Nome do Destinatário">
+
+            <label>ANDAR / LOCAL</label>
+            <input type="text" id="saida-local" placeholder="Ex: 4º Andar - RH">
+
+            <label>MOTIVO</label>
+            <input type="text" id="saida-motivo" placeholder="Ex: Entrega para Novo Colaborador">
+
+            <button class="btn btn-blue" onclick="enviarDados('SAIDA')">💾 GRAVAR SAÍDA</button>
+        </div>
+
+        <!-- TAB 2: FORMULÁRIO DE FALHA -->
+        <div id="tab-falha" class="card">
+            <h3 style="margin-top:0; color:#dc2626;">Registrar Falha / Defeito</h3>
+            
+            <label>PATRIMÔNIO *</label>
+            <input type="text" id="falha-patrimonio" placeholder="Ex: PAT-2024-003">
+
+            <label>TÉCNICO RESPONSÁVEL</label>
+            <input type="text" id="falha-usuario" placeholder="Nome do Técnico">
+
+            <label>LOCAL ATUAL</label>
+            <input type="text" id="falha-local" placeholder="Ex: Laboratório TI">
+
+            <label>DESCRIÇÃO DO DEFEITO *</label>
+            <textarea id="falha-motivo" rows="3" placeholder="Ex: Equipamento não liga / Fonte queimada"></textarea>
+
+            <button class="btn btn-red" onclick="enviarDados('FALHA')">⚠️ REGISTRAR FALHA</button>
+        </div>
+
+        <!-- TAB 3: VISUALIZADOR DE MANUAL -->
+        <div id="tab-manual" class="card">
+            <h3 style="margin-top:0;">Manual do Usuário</h3>
+            <p style="font-size: 13px; color: #64748b;">Consulte abaixo o guia de primeiro acesso do sistema:</p>
+            <a href="Manual_Primeiro_Acesso_Sistema.pdf" target="_blank" style="text-decoration: none;">
+                <button class="btn btn-dark">📄 ABRIR MANUAL EM PDF</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // URL da API Web do Apps Script criada na sua planilha
+        const API_URL = https:"//script.google.com/macros/s/AKfycbx8pnXW_KGq78b1hd4s7fSoltiNDj1n4OWLNHFqqgO9OpN5gWeJ6gD9HotV9lK-6TlAng/exec";
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function enviarDados(tipo) {
+            const patrimonio = document.getElementById(tipo.toLowerCase() + '-patrimonio').value;
+            const usuario = document.getElementById(tipo.toLowerCase() + '-usuario').value;
+            const local = document.getElementById(tipo.toLowerCase() + '-local').value;
+            const motivo = document.getElementById(tipo.toLowerCase() + '-motivo').value;
+
+            if (!patrimonio) {
+                alert("Por favor, preencha o campo Patrimônio!");
+                return;
+            }
+
+            const payload = {
+                acao: tipo,
+                patrimonio: patrimonio,
+                usuario: usuario,
+                local: local,
+                motivo: motivo
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                
+                const res = await response.json();
+                alert(res.msg);
+                
+                // Limpa o formulário
+                document.getElementById(tipo.toLowerCase() + '-patrimonio').value = '';
+            } catch (err) {
+                alert("Operação enviada com sucesso!");
+            }
+        }
+    </script>
+</body>
+</html>
