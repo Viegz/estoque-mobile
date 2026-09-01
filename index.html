@@ -26,13 +26,10 @@
         .form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; }
         .form-control { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #343d52; background: #1a1e29; color: #fff; font-size: 14px; }
         .btn-action { padding: 12px 25px; background: #27ae60; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; font-size: 15px; margin-top: 10px; width: 100%; }
-        .btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
         .nav-back { display: inline-block; margin-top: 20px; padding: 10px 18px; background: #343d52; color: white; border-radius: 6px; border: none; cursor: pointer; text-decoration: none; font-weight: 600; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #2d3446; font-size: 14px; }
         th { background: #1a1e29; color: #8892b0; }
-        
-        /* Badges de Tipo */
         .badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; }
         .badge-entrada { background: #27ae60; color: white; }
         .badge-saida { background: #e74c3c; color: white; }
@@ -73,7 +70,7 @@
                     <div class="form-group"><label>Patrimônio *:</label><input type="text" id="entrada-patrimonio" class="form-control" required></div>
                     <div class="form-group"><label>MAC / Detalhes:</label><input type="text" id="entrada-mac" class="form-control" placeholder="Ex: 00:1B:44:11:3A:B7"></div>
                     <div class="form-group"><label>Nº Série / Responsável:</label><input type="text" id="entrada-serie" class="form-control" placeholder="Ex: SN-99882"></div>
-                    <button type="submit" class="btn-action" id="btn-entrada">GRAVAR ENTRADA</button>
+                    <button type="submit" class="btn-action">GRAVAR ENTRADA</button>
                 </form>
             </div>
             <button class="nav-back" onclick="showScreen('screen-movimentacoes')"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
@@ -88,7 +85,7 @@
                     <div class="form-group"><label>Patrimônio *:</label><input type="text" id="saida-patrimonio" class="form-control" required></div>
                     <div class="form-group"><label>Destino / Local:</label><input type="text" id="saida-destino" class="form-control" placeholder="Ex: 4º Andar - RH"></div>
                     <div class="form-group"><label>Responsável / Usuário:</label><input type="text" id="saida-resp" class="form-control" placeholder="Nome do Destinatário"></div>
-                    <button type="submit" class="btn-action" style="background:#e74c3c;" id="btn-saida">REGISTRAR SAÍDA</button>
+                    <button type="submit" class="btn-action" style="background:#e74c3c;">REGISTRAR SAÍDA</button>
                 </form>
             </div>
             <button class="nav-back" onclick="showScreen('screen-movimentacoes')"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
@@ -104,7 +101,7 @@
                     <div class="form-group"><label>Técnico Responsável:</label><input type="text" id="falha-tecnico" class="form-control" placeholder="Nome do Técnico"></div>
                     <div class="form-group"><label>Local Atual:</label><input type="text" id="falha-local" class="form-control" placeholder="Ex: Laboratório TI"></div>
                     <div class="form-group"><label>Descrição do Defeito *:</label><input type="text" id="falha-defeito" class="form-control" required placeholder="Ex: Equipamento não liga / Fonte queimada"></div>
-                    <button type="submit" class="btn-action" style="background:#f39c12;" id="btn-falha">REGISTRAR FALHA</button>
+                    <button type="submit" class="btn-action" style="background:#f39c12;">REGISTRAR FALHA</button>
                 </form>
             </div>
             <button class="nav-back" onclick="showScreen('screen-menu')"><i class="fa-solid fa-arrow-left"></i> Voltar ao Menu</button>
@@ -127,7 +124,7 @@
                             </tr>
                         </thead>
                         <tbody id="table-body">
-                            <tr><td colspan="5" style="text-align:center;">Nenhum registro carregado.</td></tr>
+                            <tr><td colspan="5" style="text-align:center;">Nenhum registro gravado ainda.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -137,10 +134,8 @@
     </main>
 
     <script>
-        // ⚠️ COLE AQUI A SUA URL DO GOOGLE APPS SCRIPT
-        const API_URL = "https://script.google.com/macros/s/AKfycbx8pnXW_KGq78b1hd4s7fSoltiNDj1n4OWLNHFqqgO9OpN5gWeJ6gD9HotV9lK-6TlAng/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbx8pnXW_KGq78b1hd4s7fSoltiNDj1n4OWLNHFqqg090pN5gWeJ6gD9HotV91K-6T1Ang/exec";
 
-        // Armazenamento local temporário dos registros
         let dadosHistorico = [];
 
         function showScreen(id) {
@@ -178,33 +173,33 @@
 
             const dataAtual = new Date().toLocaleString('pt-BR');
 
-            // Adiciona ao histórico local na tabela
-            dadosHistorico.unshift({
-                patrimonio: patrimonio,
-                local: local || '-',
-                usuario: usuario || '-',
-                tipo: tipo,
-                data: dataAtual
-            });
-
-            // Envio para o Google Apps Script
             try {
-                if (API_URL !== "SUA_URL_DO_GOOGLE_APPS_SCRIPT_AQUI") {
-                    await fetch(API_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'text/plain' },
-                        body: JSON.stringify(payload)
-                    });
-                }
-                alert('✅ Lançamento registrado com sucesso!');
-            } catch (err) {
-                alert('⚠️ Salvo localmente, mas ocorreu uma falha ao enviar à planilha.');
-            }
+                // Envio com suporte ao redirecionamento do Google Apps Script
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    redirect: 'follow',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
 
-            e.target.reset();
-            renderTabela();
-            showScreen('screen-buscar');
+                dadosHistorico.unshift({
+                    patrimonio: patrimonio,
+                    local: local || '-',
+                    usuario: usuario || '-',
+                    tipo: tipo,
+                    data: dataAtual
+                });
+
+                alert('✅ Lançamento enviado e gravado com sucesso!');
+                e.target.reset();
+                renderTabela();
+                showScreen('screen-buscar');
+
+            } catch (err) {
+                console.error(err);
+                alert('❌ Ocorreu um erro ao enviar os dados.');
+            }
         }
 
         function renderTabela() {
